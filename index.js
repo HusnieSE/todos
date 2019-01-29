@@ -10,15 +10,23 @@ app.on('ready', () => {
 
     const mainMenu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(mainMenu);
-})
+});
 
 const menuTemplate = [ 
     {
         label: "File",
         submenu: [
-            {
-                label: "New Todo"
+            { label: "New Todo" },
+            { 
+                label: 'Quit',
+                click() {
+                    app.quit();
+                }
             }
         ]
     }
-]
+];
+
+if(process.platform === "darwin") {
+    menuTemplate.unshift({label: ''})
+}
