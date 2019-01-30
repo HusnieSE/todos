@@ -24,6 +24,10 @@ function addNewWindow() {
     addWindow.on('close', () => addWindow = null );
 }
 
+function clearTOdos() {
+    mainWindow.webContents.send('clear_todos');
+}
+
 ipcMain.on('add_todo', (event, todo) => {
     mainWindow.webContents.send('add_todo', todo);
     addWindow.close();
@@ -37,6 +41,12 @@ const menuTemplate = [
                 label: "New Todo",
                 click() {
                     addNewWindow()
+                }
+            },
+            {
+                label: 'Clear Todos',
+                click() {
+                    clearTOdos()
                 }
             },
             { 
