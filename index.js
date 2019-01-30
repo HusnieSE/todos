@@ -19,12 +19,14 @@ function addNewWindow() {
         width: 300,
         height: 200,
         title: 'Add New Todo'
-    })
-    addWindow.loadURL(`file://${__dirname}/add.html`)
+    });
+    addWindow.loadURL(`file://${__dirname}/add.html`);
+    addWindow.on('close', () => addWindow = null );
 }
 
 ipcMain.on('add_todo', (event, todo) => {
-    mainWindow.WebContents.send('add_todo', todo)
+    mainWindow.webContents.send('add_todo', todo);
+    addWindow.close();
 })
 
 const menuTemplate = [ 
@@ -56,6 +58,9 @@ if(process.env.NODE_ENV !== 'production') {
     menuTemplate.push({
         label: 'View',
         submenu: [
+            {
+                role: 'reload'
+            },
             {
                 label: 'Toggle Developer Tools',
                 accelerator: process.platform === 'darwin' ? 'Command+Alt+I' : 'Command+Shift+I',
